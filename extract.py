@@ -42,14 +42,18 @@ __TODO__
 None
 """
 
+import re
+
 
 def extract(file):
-    with open(file, 'r') as f:
-        re=f.readlines()
-    for i in re:
-        re.index()
-    return re
+    liner = []
+    with open(file, 'r', encoding='utf_8') as f:
+        liner += f.readlines()
+    regex = re.compile('LOCATION')
+    for regex in liner:
+        print(liner)
 
-if __name__=='__main__':
-    file = './DATA/rcs_161022_03.out'
+
+if __name__ == '__main__':
+    file = './rcs_161022_03.out'
     print(extract(file))
