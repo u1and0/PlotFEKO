@@ -43,6 +43,9 @@ None
 """
 
 import re
+# import pygrep as gr
+import subprocess as sp
+import pandas as pd
 
 
 def extract(file):
@@ -54,6 +57,30 @@ def extract(file):
         print(liner)
 
 
+def read_greped_text(file):
+    """
+    `grep -A2 <search pattern> <infile> >> <outfile>`
+    で抜き出して作成した<outfile>を引数として
+    pandas.read_tableで読み込む
+    """
+    with open(file, 'r', encoding='utf-8') as f:
+        l = len(f.readlines())
+    a = set(i for i in range(3, l))
+    b = set(i for i in range(6, l, 4))
+    skiprows=list(a-b)
+    return pd.read_table('eh.txt',
+                         delim_whitespace=True,
+                         header=1,
+                         usecols=[0, 1, 6],
+                         skiprows=skiprows,
+                         names=['THETA[deg]', 'PHI[deg]', 'RCS[dB]'])
+
+
 if __name__ == '__main__':
-    file = './rcs_161022_03.out'
-    print(extract(file))
+    # infile = './rcs_161022_03.out'
+    # outfile = infile[:-4] + '.outout'
+    # search_pattern = 'LOCATION'
+    # sp.check_output(['grep', '-A2', search_pattern, infile, '>> %s' % outfile])
+    # with open(outfile, 'r', encoding='utf-8') as f:
+    #     print(f.read())
+    print(read_greped_text('./a.txt'))
