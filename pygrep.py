@@ -19,9 +19,17 @@ import glob
 #             line_number = line_number + 1
 
 
-def grep(search_pattern, file_name_pattern='./*'):
+def grep(search_pattern: str, file_name_pattern: str ='./*') -> tuple:
     """
     検索フォルダ内のすべてのファイルからサーチパターンに適合したファイル名と行数を抜き出す
+    * 引数:
+        * search_pattern:検索文字列(str型regex)
+        * file_name_pattern:検索対象ファイルのフルパス(str型regex)
+    * 戻り値:
+        * tupleをyieldする
+            * file_name:検索文字列が見つかったファイル名
+            * line_number:検索文字列が見つかった行数
+            * line.strip()):検索文字列が含まれる列
     """
     for file_name in glob.iglob(file_name_pattern):
         try:
@@ -33,8 +41,6 @@ def grep(search_pattern, file_name_pattern='./*'):
                     line_number += 1
         except:
             continue
-
-
 
 
 if __name__ == '__main__':
