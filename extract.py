@@ -80,8 +80,15 @@ def read_greped_text(file: str):
                        usecols=[0, 1, 6],
                        skiprows=skiprows,
                        names=['THETA[deg]', 'PHI[deg]', 'RCS[W]'])
-    df['RCS[dBm]'] = 10 * np.log10(df['RCS[W]'])  # Ｗ -> dBm変換
+    df['RCS[dBm]'] = 10 * np.log10(df['RCS[W]'])  # W -> dBm変換
     return df
+
+
+def multi_read_greped_text(*files):
+    dfs = pd.DataFrame('')
+    for file in files:
+        dfs[file] = read_greped_text(file)
+    return dfs
 
 
 if __name__ == '__main__':
