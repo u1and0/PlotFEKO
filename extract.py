@@ -1,5 +1,5 @@
 """
-## extracy ver0.1
+## extract ver0.1
 
 __USAGE__
 .outファイルの以下のようなところを読み込む
@@ -44,8 +44,9 @@ None
 
 import re
 # import pygrep as gr
-import subprocess as sp
+# import subprocess as sp
 import pandas as pd
+import numpy as np
 
 
 def extract(file):
@@ -57,23 +58,30 @@ def extract(file):
         print(liner)
 
 
-def read_greped_text(file):
+def read_greped_text(file: str):
     """
     `grep -A2 <search pattern> <infile> >> <outfile>`
     で抜き出して作成した<outfile>を引数として
     pandas.read_tableで読み込む
+
+    引数:
+        file: grepで抜き出したファイル名のフルパス(str型)
+    戻り値:
+        df: 'THETA[deg]', 'PHI[deg]', 'RCS[W]', 'RCS[dBm]'を列にしたデータフレーム(pd.DataFrame型)
     """
     with open(file, 'r', encoding='utf-8') as f:
-        l = len(f.readlines())
-    a = set(i for i in range(3, l))
-    b = set(i for i in range(6, l, 4))
-    skiprows=list(a-b)
-    return pd.read_table('eh.txt',
-                         delim_whitespace=True,
-                         header=1,
-                         usecols=[0, 1, 6],
-                         skiprows=skiprows,
-                         names=['THETA[deg]', 'PHI[deg]', 'RCS[dB]'])
+        ll = len(f.readlines())
+    a = set(i for i in range(3, ll))
+    b = set(i for i in range(6, ll, 4))
+    skiprows = list(a - b)
+    df = pd.read_table(file,
+                       delim_whitespace=True,
+                       header=1,
+                       usecols=[0, 1, 6],
+                       skiprows=skiprows,
+                       names=['THETA[deg]', 'PHI[deg]', 'RCS[W]'])
+    df['RCS[dBm]'] = 10 * np.log10(df['RCS[W]'])  # Ｗ -> dBm変換
+    return df
 
 
 if __name__ == '__main__':

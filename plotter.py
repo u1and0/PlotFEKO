@@ -48,6 +48,6 @@ def plot(dft):
 
 
 if __name__ == "__main__":
-    file = './DATA/rcs_161022_03.csv'
+    file = './DATA/rcs_161022_04_0p1ind.outout'
     plot(loadfile(file))
     plt.savefig('./DATA/hoge.png')
