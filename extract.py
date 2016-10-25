@@ -67,7 +67,7 @@ def read_greped_text(file: str):
     引数:
         file: grepで抜き出したファイル名のフルパス(str型)
     戻り値:
-        df: 'THETA[deg]', 'PHI[deg]', 'RCS[W]', 'RCS[dBm]'を列にしたデータフレーム(pd.DataFrame型)
+        df: 'theta', 'phi', 'rcs_w', 'rcs_d'を列にしたデータフレーム(pd.DataFrame型)
     """
     with open(file, 'r', encoding='utf-8') as f:
         ll = len(f.readlines())
@@ -79,8 +79,8 @@ def read_greped_text(file: str):
                        header=1,
                        usecols=[0, 1, 6],
                        skiprows=skiprows,
-                       names=['THETA[deg]', 'PHI[deg]', 'RCS[W]'])
-    df['RCS[dBm]'] = 10 * np.log10(df['RCS[W]'])  # W -> dBm変換
+                       names=['theta', 'phi', 'rcs_w'])
+    df['rcs_d'] = 10 * np.log10(df['rcs_w'])  # W -> dBm変換
     return df
 
 
