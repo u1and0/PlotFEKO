@@ -110,8 +110,17 @@ def igrep(search_pattern: str, file_name_pattern: str ='./*', *args) -> tuple:
             continue
 
 
-def osgrep(*args):
-    one_string = sp.check_output(args).decode('utf-8')
+def osgrep(option, pattern, infile, outfile):
+    """
+    うごかねぇ
+    """
+    # gg = list(args)
+    # print(args)
+    # print(list(args))
+    # print(['grep'])
+    # print('\ncommand is ', ['grep'].append(list(args)), '\n')
+    # one_string = sp.check_output(gg).decode('utf-8')
+    one_string = sp.check_output(['grep', option, pattern, infile, '>', outfile])
     return one_string
 
 
@@ -125,4 +134,4 @@ if __name__ == '__main__':
     # print(grep('USAGE'))  # 第二引数のサーチファイルパターンはデフォルト引数なのでなくても走る
     # print(grep('USAGE', './*', 'p'))  # 第3引数のオプションにpが入るとprintする
 
-    print(osgrep('grep', '-A2', 'LOCATION', '.out'))
+    print(osgrep('-A2', 'LOCATION', './PlotFEKO/DATA/rcs_161024_01.out', './PlotFEKO/DATA/rcs_161024_01.grp2'))
