@@ -39,11 +39,12 @@ def loadfile(file):
     return dft
 
 
-def plot(dft):
+def plot(dft, title):
     """plotする"""
     fig = dft.plot.hist(bins=50)  # ヒストグラムの本数を59本にする
     fig.set_xlabel('RCS[dB]')
-    fig.set_ylabel('Count[times]')
+    fig.set_ylabel('Count')
+    fig.set_title(title)
     return fig
 
 
