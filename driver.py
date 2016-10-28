@@ -1,3 +1,30 @@
+"""
+## driver.py ver1.0
+
+__USAGE__
+`import`して呼び出す。各関数の使い方はdoc参照。
+
+__INTRODUCTION__
+データ操作系の関数群
+
+__ACTION__
+
+* merge
+    * 一つのデータフレームにまとめる
+* chu
+    * df_inのcolumns_nameの列からlow以上high以下の値を示す部分を抽出する
+
+
+
+
+
+__UPDATE1.0__
+First commit
+
+__TODO__
+None
+"""
+
 import pandas as pd
 import numpy as np
 

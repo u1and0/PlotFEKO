@@ -1,7 +1,20 @@
 """
-## extract ver0.1
+## extract ver1.0
 
 __USAGE__
+`import`して呼び出す。各関数の使い方はdoc参照。
+
+
+__INTRODUCTION__
+FEKOに計算させると吐き出される.outファイルの必要な情報を抽出するスクリプト
+ACTIONに示す情報を抜き出して、csvファイルにまとめる
+
+
+
+__ACTION__
+
+### なにをするのか
+
 .outファイルの以下のようなところを読み込む
 
 ```
@@ -12,11 +25,6 @@ __USAGE__
 ```
 
 
-__INTRODUCTION__
-FEKOに計算させると吐き出される.outファイルの必要な情報を抽出するスクリプト
-ACTIONに示す情報を抜き出して、csvファイルにまとめる
-
-__ACTION__
 
 ### 抽出する情報
 
@@ -34,6 +42,10 @@ index : 第4要素
 name : scattering cross sect.
 type : 指数型 0.00000E+00
 unit : dB
+
+__UPDATE1.0__
+* chu追加
+* README修正
 
 __UPDATE0.1__
 First commit
