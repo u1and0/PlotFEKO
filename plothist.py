@@ -13,6 +13,16 @@ __ACTION__
 driverでマージ
 
 
+
+### plothist
+ヒストグラムをplotする
+引数:
+    df:プロットするデータ(pd.core.frame.DataFrame)
+戻り値:
+    fig:サブプロット(matplotlib.axes._subplots.AxesSubplot)
+
+
+
 ### call_plothist
 plothistを呼び出す。
 コマンドラインなどでこのファイルを呼び出したとき実行
