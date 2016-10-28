@@ -1,5 +1,5 @@
 """
-## plotter.py ver1.0
+## plothist.py ver1.0
 __USAGE__
 `run_plothist.bat`から呼び出すか
 `python plotter.py`をコマンドラインで実行
@@ -12,6 +12,24 @@ __ACTION__
 `read_greped_text`で`.grp`ファイルを読み込み
 driverでマージ
 
+
+
+### plothist
+ヒストグラムをplotする
+引数:
+    df:プロットするデータ(pd.core.frame.DataFrame)
+戻り値:
+    fig:サブプロット(matplotlib.axes._subplots.AxesSubplot)
+
+
+
+### call_plothist
+plothistを呼び出す。
+コマンドラインなどでこのファイルを呼び出したとき実行
+コマンドラインの引数がある -> 引数
+コマンドラインの引数がない -> ファイル名を入力させる
+`read_greped_text`でgrpファイルを読み込みdfに格納。
+`plothist`でプロットする。
 
 
 __UPDATE1.0__
@@ -43,8 +61,13 @@ def loadfile(file):
     return df
 
 
-def plothist(df, title='histgram'):
-    """plotする"""
+def plothist(df: pd.core.frame.DataFrame, title='histgram'):
+    """ヒストグラムをplotする
+    引数:
+        df:プロットするデータ(pd.core.frame.DataFrame)
+    戻り値:
+        fig:サブプロット(matplotlib.axes._subplots.AxesSubplot)
+    """
     fig = df.plot.hist(bins=50)  # ヒストグラムの本数を50本にする
     fig.set_xlabel('RCS[dB]')
     fig.set_ylabel('Count')
@@ -62,14 +85,22 @@ def fig():
 
 
 def call_plothist():
+    """
+    plothistを呼び出す。
+    コマンドラインなどでこのファイルを呼び出したとき実行
+    コマンドラインの引数がある -> 引数
+    コマンドラインの引数がない -> ファイル名を入力させる
+    `read_greped_text`でgrpファイルを読み込みdfに格納。
+    `plothist`でプロットする。
+    """
     try:  # batchから引数としてファイル名受け取ったとき
         file = sys.argv[1]
     except IndexError:  # 引数がないとき(python shellからplothist.pyを実行したときなども含む)
-        file = input('grpファイル名を入力してください。 >>> ').strip()
+        file = input('grpファイル名を入力してください。 >>> ').strip()  # 入力文字列の空白削除
     finally:
         print('%sにより%sをヒストグラム化します。' % (sys.argv[0], file))
-        df = read_greped_text(file)
-        plothist(df['rcs_d'], file)
+        df = read_greped_text(file)  # データフレーム読み込み
+        plothist(df['rcs_d'], file)  # ヒストグラムのプロット
         plt.show()
 
 
