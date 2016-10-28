@@ -139,33 +139,40 @@ df_inのcolumns_nameの列からlow以上high以下の値を示す部分を抽�
 
 
 
-## plotter.py ver1.0
-
 __USAGE__
-Just build
+`run_plothist.bat`から呼び出すか
+`python plotter.py`をコマンドラインで実行
 
 __INTRODUCTION__
-csvデータをplotする
-hoge.pngに図を保存する
+ヒストグラムを描画
+細かい名前定義やグラフのラベルは作成しない
 
 __ACTION__
-fileに指定したファイルから
-pd.dateframeとしてロード
-列方向は見たくないので全部を１カラムに表示(stack)
-ヒストグラムとしてプロットする
-.ipynbファイルのほうが対話形式で見やすいかも
+`read_greped_text`で`.grp`ファイルを読み込み
+driverでマージ
 
-__UPDATE--version--__
+
+
+### plothist
+ヒストグラムをplotする
+引数:
+    df:プロットするデータ(pd.core.frame.DataFrame)
+戻り値:
+    fig:サブプロット(matplotlib.axes._subplots.AxesSubplot)
+
+
+
+### call_plothist
+plothistを呼び出す。
+コマンドラインなどでこのファイルを呼び出したとき実行
+コマンドラインの引数がある -> 引数
+コマンドラインの引数がない -> ファイル名を入力させる
+`read_greped_text`でgrpファイルを読み込みdfに格納。
+`plothist`でプロットする。
+
+
+__UPDATE1.0__
 First commit
 
 __TODO__
-plotの日本語表示
-
-
-
-
-
-
-
-
-
+None
