@@ -2,6 +2,36 @@
 
 FEKOの計算により吐き出されたoutファイルの処理を行うpythonスクリプト
 
+__USAGE__
+
+outファイルからデータを抜き出したgrpファイルを用意する。
+まだ作成していない場合は`grepout.bat`を実行。
+a-いずれの方法でも実行できる。
+
+## a
+`run_plothist.bat`をダブルクリック
+"grpファイル名を入力してください。 >>>"と聞かれるのでファイル名(.grp)を入力
+
+## b
+コマンドライン上に`run_plothist.bat <ファイル名.grp>`と入力
+
+## c
+コマンドラインに`python plothist.py`と入力して
+"grpファイル名を入力してください。 >>>"と聞かれるのでファイル名(.grp)を入力
+
+## d
+コマンドラインに`python plothist.py <ファイル名.grp>`と入力
+
+## e
+ipython上で`%run plothist <ファイル名.grp>`と入力
+
+## f
+ipython上で`%run plothist`と入力して
+"grpファイル名を入力してください。 >>>"と聞かれるのでファイル名(.grp)を入力
+
+
+
+
 
 ## extract ver1.0
 
