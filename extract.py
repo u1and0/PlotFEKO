@@ -1,7 +1,20 @@
 """
-## extract ver0.1
+## extract ver1.0
 
 __USAGE__
+`import`して呼び出す。各関数の使い方はdoc参照。
+
+
+__INTRODUCTION__
+FEKOに計算させると吐き出される.outファイルの必要な情報を抽出するスクリプト
+ACTIONに示す情報を抜き出して、csvファイルにまとめる
+
+
+
+__ACTION__
+
+### なにをするのか
+
 .outファイルの以下のようなところを読み込む
 
 ```
@@ -12,11 +25,6 @@ __USAGE__
 ```
 
 
-__INTRODUCTION__
-FEKOに計算させると吐き出される.outファイルの必要な情報を抽出するスクリプト
-ACTIONに示す情報を抜き出して、csvファイルにまとめる
-
-__ACTION__
 
 ### 抽出する情報
 
@@ -34,6 +42,10 @@ index : 第4要素
 name : scattering cross sect.
 type : 指数型 0.00000E+00
 unit : dB
+
+__UPDATE1.0__
+* chu追加
+* README修正
 
 __UPDATE0.1__
 First commit
@@ -70,9 +82,9 @@ def read_greped_text(file: str):
         df: 'theta', 'phi', 'rcs_w', 'rcs_d'を列にしたデータフレーム(pd.DataFrame型)
     """
     with open(file, 'r', encoding='utf-8') as f:
-        ll = len(f.readlines())
-    a = set(i for i in range(3, ll))
-    b = set(i for i in range(6, ll, 4))
+        twl = len(f.readlines())
+    a = set(i for i in range(3, twl))
+    b = set(i for i in range(6, twl, 4))
     skiprows = list(a - b)
     df = pd.read_table(file,
                        delim_whitespace=True,

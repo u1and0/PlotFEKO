@@ -22,9 +22,12 @@ __TODO__
 plotの日本語表示
 """
 
+# __BUILT IN MODULES__________________________
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+# __USER MODULES__________________________
+import driver as dr
 
 
 def loadfile(file):
@@ -39,12 +42,22 @@ def loadfile(file):
     return dft
 
 
-def plot(dft):
+def plot(dft, title):
     """plotする"""
-    fig = dft.plot.hist(bins=50)  # ヒストグラムの本数を59本にする
+    fig = dft.plot.hist(bins=50)  # ヒストグラムの本数を50本にする
     fig.set_xlabel('RCS[dB]')
-    fig.set_ylabel('Count[times]')
+    fig.set_ylabel('Count')
+    fig.set_title(title)
     return fig
+
+
+def fig():
+    """まだ使えない"""
+    # pm1用のデータを作成
+    df_v3c_nallow = dr.chu(df_v3c, 'theta', 89, 91)
+    df_unic_wo_mast_nallow = dr.chu(df_unic_wo_mast, 'theta', 89, 91)
+    pd.merge(df_v3c_nallow, df_unic_wo_mast_nallow, on=[
+             'theta', 'phi'], how='outer', suffixes=['v3', 'uni'])  # データの確認
 
 
 if __name__ == "__main__":
