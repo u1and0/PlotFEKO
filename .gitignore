@@ -1,2 +1,6 @@
-/DATA/
-*.ipynb
+/*/
+plot_histgram.*
+!plot_histgram.ipynb
+draft.tex
+*.pdf
+*.7z
