@@ -70,9 +70,9 @@ def read_greped_text(file: str):
         df: 'theta', 'phi', 'rcs_w', 'rcs_d'を列にしたデータフレーム(pd.DataFrame型)
     """
     with open(file, 'r', encoding='utf-8') as f:
-        ll = len(f.readlines())
-    a = set(i for i in range(3, ll))
-    b = set(i for i in range(6, ll, 4))
+        twl = len(f.readlines())
+    a = set(i for i in range(3, twl))
+    b = set(i for i in range(6, twl, 4))
     skiprows = list(a - b)
     df = pd.read_table(file,
                        delim_whitespace=True,
