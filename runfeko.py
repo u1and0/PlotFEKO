@@ -63,21 +63,17 @@ def confirm(files: str) -> str:
     return inp
 
 
-if __name__ == '__main__':
-    # files = glob.glob('../*.dat')  # TESTcommand
-    try:
-        regex = sys.argv[1]
-    except:
-        regex = input('正規表現でファイル名を入力してください。>>> ')
+def excute(sleeptime, *files):
+    """
+    runfekoの実行
 
-    try:
-        sleeptime = sys.argv[2]
-    except:
-        sleeptime = input('何秒後に実行？ / Enterで直ちに実行 >>> ')
-
-    dafault_command = ['echo', 'foo']
-    files = glob.glob(regex)
+    引数:
+        dafault_command:(リスト型)
+        dafault_files:ファイル名(str型)
+    戻り値:なし(commandの実行と、実行時間の表示)
+    """
     count = 0
+    dafault_command = ['echo', 'foo']
 
     if confirm(files):
         print('--\nyesが入力されました。処理を続行します。\n')
@@ -103,3 +99,19 @@ if __name__ == '__main__':
             print('実行時間: ', te - ts)
     else:
         print('--\nNoが入力されました。\n処理終了します。')
+
+
+if __name__ == '__main__':
+    # files = glob.glob('../*.dat')  # TESTcommand
+    try:
+        regex = sys.argv[1]
+    except:
+        regex = input('正規表現でファイル名を入力してください。>>> ')
+
+    try:
+        sleeptime = sys.argv[2]
+    except:
+        sleeptime = input('何秒後に実行？ / 入力なし->Enterで直ちに実行 >>> ')
+
+    files = glob.glob(regex)
+    excute(sleeptime, *files)
