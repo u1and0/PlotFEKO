@@ -23,14 +23,20 @@ __TODO__
 
 import glob
 import subprocess as sp
-import os
+import time
 
 files = glob.iglob('../*.dat')
 default_command = ['echo', 'foo']
 
+
 for file in files:
+    ts = time.clock()
     command = []
     command = default_command.copy()
     command.insert(1, file)
     print('実行コマンド: ', *command)
     sp.call(command)
+    te = time.clock()
+    print('開始時刻' ts)
+    print('終了時刻' te)
+    print('実行時間' te - ts)
