@@ -2,7 +2,7 @@
 ## runtime_scheduler ver1.0
 
 __USAGE__
-python runfeko <ファイル名の正規表現>
+python runfeko.py <ファイル名の正規表現>
 
 __INTRODUCTION__
 cmdに渡すコマンド
@@ -25,12 +25,12 @@ import glob
 import subprocess as sp
 from datetime import datetime
 from tqdm import tqdm
+import sys
 
 
-def confirm(files:str) -> str:
+def confirm(files: str) -> str:
     """
     実行ファイルの確認
-    正しい値が入力されるまで繰り返し。
 
     引数:
         files: globで探されたファイル名(str型)
@@ -40,7 +40,7 @@ def confirm(files:str) -> str:
     for file in files:
         print(file)
     dic = {'y': True, 'yes': True, 'n': False, 'no': False}
-    while True:
+    while True:  # 正しい値が入力されるまで繰り返し
         try:
             inp = dic[input('以上のファイルを実行します。よろしいですか？ y/n? >>>').lower()]
             break
@@ -50,11 +50,11 @@ def confirm(files:str) -> str:
     return inp
 
 
-def excute(default_command:list, *files:str):
+def excute(default_command: list, *files: str):
     """
     runfekoの実行
 
-    引数: 
+    引数:
         dafault_command:(リスト型)
         dafault_files:ファイル名(str型)
     戻り値:なし
@@ -85,6 +85,10 @@ def excute(default_command:list, *files:str):
 
 if __name__ == '__main__':
     # files = glob.glob('../*.dat')  # TESTcommand
-    files = glob.glob(input('正規表現でファイル名を入力してください。>>> '))
+    try:
+        regex = sys.argv[1]
+    except IndexError:
+        regex = input('正規表現でファイル名を入力してください。>>> ')
+    files = glob.glob(regex)
     command = ['echo', 'foo']
     excute(command, *files)
