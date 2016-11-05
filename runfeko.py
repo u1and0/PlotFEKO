@@ -2,7 +2,37 @@
 ## runtime_scheduler ver1.0
 
 __USAGE__
-python runfeko.py <ファイル名の正規表現>
+`python runfeko.py <ファイル名の正規表現> <待ち時間>`
+
+```
+$ 正規表現でファイル名を入力してください。>>> ../*dat
+$ 何秒後に実行？ / 入力なし->Enterで直ちに実行 >>>
+$ echo ..\data.dat foo
+$ echo ..\mat.dat foo
+$ 以上のコマンドを実行します。よろしいですか？ y/n? >>>y
+--
+yesが入力されました。処理を続行します。
+
+  0%|
+                                                           | 0/2 [00:00<?, ?it/s] 実行サイクル: 1/2
+実行コマンド:  echo ..\data.dat foo
+..\data.dat foo
+開始時刻:  2016-11-06 07:58:29.763531
+終了時刻:  2016-11-06 07:58:29.887614
+実行時間:  0:00:00.124083
+ 50%|███████████████████████████████
+███████████████████████
+                                   | 1/2 [00:00<00:00,  7.81it/s] 実行サイクル: 2/2
+実行コマンド:  echo ..\mat.dat foo
+..\mat.dat foo
+開始時刻:  2016-11-06 07:58:29.892617
+終了時刻:  2016-11-06 07:58:30.020703
+実行時間:  0:00:00.128086
+100%|███████████████████████████████
+██████████████████████████████████
+██████████████████████████████████
+█████████| 2/2 [00:00<00:00,  7.75it/s]
+```
 
 __INTRODUCTION__
 cmdに渡すコマンド
@@ -30,8 +60,10 @@ import pandas as pd
 from time import sleep
 import numpy as np
 
+_command = ['echo', 'foo']
 
-def countdown(n):
+
+def countdown(n: float):
     """
     n秒待って、経過時間を進捗バーで表す
     """
@@ -41,15 +73,24 @@ def countdown(n):
         sleep(1)
 
 
-def commnand_generator(default_commnad, files):
+def command_gen(files: list) -> list:
+    """
+    実行コマンドのリストを返す
+
+    引数:
+        files: ファイルのリスト
+    戻り値:
+        li: コマンドのリスト
+    """
+    li = []
     for file in files:
-        command = default_commnad.copy()
-        command.insert(1, file)
-        # print(*command)  # 実行コマンドの確認
-    yield command
+        command = _command.copy()  # コマンドの初期化
+        command.insert(1, file)  # コマンドにファイル名挿入
+        li.append(command)  # コマンドをリストに格納
+    return li
 
 
-def confirm(default_commnad, files: str) -> str:
+def confirm(files: list) -> str:
     """
     実行コマンドの確認
 
@@ -58,7 +99,7 @@ def confirm(default_commnad, files: str) -> str:
     戻り値:
         inp:y -> True / n -> False(bool型)
     """
-    for command in command_generator(files):
+    for command in command_gen(files):
         print(*command)  # 実行コマンドの確認
     dic = {'y': True, 'yes': True, 'n': False, 'no': False}
     while True:  # 正しい値が入力されるまで繰り返し
@@ -71,33 +112,32 @@ def confirm(default_commnad, files: str) -> str:
     return inp
 
 
-def excute(sleeptime, *files):
+def excute(files: list, sleeptime: str):
     """
     runfekoの実行
 
     引数:
-        dafault_command:(リスト型)
-        dafault_files:ファイル名(str型)
+        _command:(リスト型)
+        files:ファイル名(str型)
     戻り値:なし(commandの実行と、実行時間の表示)
     """
     count = 0
-    dafault_command = ['echo', 'foo']
 
-    if confirm(dafault_command, files):
+    if confirm(files):
         print('--\nyesが入力されました。処理を続行します。\n')
         if sleeptime:
             print('実行待ち...')
-            countdown(float(sleeptime))
-        for command in tqdm(command_generator(default_commnad, files)):
+            countdown(float(sleeptime))  # 入力された時間待つ
+        for command in tqdm(command_gen(files)):
             count += 1
             print('実行サイクル: %d/%d' % (count, len(files)))
 
-            ts = datetime.today()
+            ts = datetime.today()  # 開始時刻
 
             print('実行コマンド: ', *command)
-            sp.call(command)
+            sp.call(command)  # コマンド実行
 
-            te = datetime.today()
+            te = datetime.today()  # 終了時刻
 
             print('開始時刻: ', ts)
             print('終了時刻: ', te)
@@ -119,4 +159,4 @@ if __name__ == '__main__':
         sleeptime = input('何秒後に実行？ / 入力なし->Enterで直ちに実行 >>> ')
 
     files = glob.glob(regex)
-    excute(sleeptime, *files)
+    excute(files, sleeptime)
