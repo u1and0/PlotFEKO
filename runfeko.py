@@ -26,12 +26,11 @@ import subprocess as sp
 import os
 
 files = glob.iglob('../*.dat')
-default_command = ['cat']
+default_command = ['echo', 'foo']
 
-print(os.getcwd())
 for file in files:
-    print(file)
-    command = default_command
+    command = []
+    command = default_command.copy()
     command.insert(1, file)
-    print(command)
+    print('実行コマンド: ', *command)
     sp.call(command)
