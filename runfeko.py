@@ -41,9 +41,9 @@ def countdown(n):
         sleep(1)
 
 
-def confirm(files: str) -> str:
+def confirm(default_commnad, files: str) -> str:
     """
-    実行ファイルの確認
+    実行コマンドの確認
 
     引数:
         files: globで探されたファイル名(str型)
@@ -51,11 +51,13 @@ def confirm(files: str) -> str:
         inp:y -> True / n -> False(bool型)
     """
     for file in files:
-        print(file)
+        command = default_commnad.copy()
+        command.insert(1, file)
+        print(*command)  # 実行コマンドの確認
     dic = {'y': True, 'yes': True, 'n': False, 'no': False}
     while True:  # 正しい値が入力されるまで繰り返し
         try:
-            inp = dic[input('以上のファイルを実行します。よろしいですか？ y/n? >>>').lower()]
+            inp = dic[input('以上のコマンドを実行します。よろしいですか？ y/n? >>>').lower()]
             break
         except:
             pass
@@ -75,7 +77,7 @@ def excute(sleeptime, *files):
     count = 0
     dafault_command = ['echo', 'foo']
 
-    if confirm(files):
+    if confirm(dafault_command, files):
         print('--\nyesが入力されました。処理を続行します。\n')
         if sleeptime:
             print('実行待ち...')
