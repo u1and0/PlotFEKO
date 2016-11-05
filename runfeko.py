@@ -26,6 +26,19 @@ import subprocess as sp
 from datetime import datetime
 from tqdm import tqdm
 import sys
+import pandas as pd
+from time import sleep
+import numpy as np
+
+
+def countdown(n):
+    """
+    n秒待って、経過時間を進捗バーで表す
+    """
+    pbar = tqdm(np.arange(n))
+    for _ in pbar:
+        pbar.set_description('Now Waiting %dsec' % n)
+        sleep(1)
 
 
 def confirm(files: str) -> str:
@@ -50,18 +63,27 @@ def confirm(files: str) -> str:
     return inp
 
 
-def excute(default_command: list, *files: str):
-    """
-    runfekoの実行
+if __name__ == '__main__':
+    # files = glob.glob('../*.dat')  # TESTcommand
+    try:
+        regex = sys.argv[1]
+    except:
+        regex = input('正規表現でファイル名を入力してください。>>> ')
 
-    引数:
-        dafault_command:(リスト型)
-        dafault_files:ファイル名(str型)
-    戻り値:なし
-    """
+    try:
+        sleeptime = sys.argv[2]
+    except:
+        sleeptime = input('何秒後に実行？ / Enterで直ちに実行 >>> ')
+
+    dafault_command = ['echo', 'foo']
+    files = glob.glob(regex)
     count = 0
+
     if confirm(files):
         print('--\nyesが入力されました。処理を続行します。\n')
+        if sleeptime:
+            print('実行待ち...')
+            countdown(float(sleeptime))
         for file in tqdm(files):
             count += 1
             print('実行サイクル: %d/%d' % (count, len(files)))
@@ -69,7 +91,7 @@ def excute(default_command: list, *files: str):
             ts = datetime.today()
 
             command = []  # 初期化
-            command = default_command.copy()
+            command = dafault_command.copy()
             command.insert(1, file)
             print('実行コマンド: ', *command)
             sp.call(command)
@@ -81,14 +103,3 @@ def excute(default_command: list, *files: str):
             print('実行時間: ', te - ts)
     else:
         print('--\nNoが入力されました。\n処理終了します。')
-
-
-if __name__ == '__main__':
-    # files = glob.glob('../*.dat')  # TESTcommand
-    try:
-        regex = sys.argv[1]
-    except IndexError:
-        regex = input('正規表現でファイル名を入力してください。>>> ')
-    files = glob.glob(regex)
-    command = ['echo', 'foo']
-    excute(command, *files)
