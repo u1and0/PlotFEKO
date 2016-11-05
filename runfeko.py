@@ -23,20 +23,24 @@ __TODO__
 
 import glob
 import subprocess as sp
-import time
+from datetime import datetime
+from tqdm import tqdm
 
-files = glob.iglob('../*.dat')
+files = glob.glob('../*.dat')
 default_command = ['echo', 'foo']
+count = 0
 
 
-for file in files:
-    ts = time.clock()
+for file in tqdm(files):
+    count += 1
+    print('実行サイクル: %d/%d' % (count, len(files)))
+    ts = datetime.today()
     command = []
     command = default_command.copy()
     command.insert(1, file)
     print('実行コマンド: ', *command)
     sp.call(command)
-    te = time.clock()
-    print('開始時刻' ts)
-    print('終了時刻' te)
-    print('実行時間' te - ts)
+    te = datetime.today()
+    print('開始時刻: ', ts)
+    print('終了時刻: ', te)
+    print('実行時間: ', te - ts)
