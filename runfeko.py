@@ -41,6 +41,14 @@ def countdown(n):
         sleep(1)
 
 
+def commnand_generator(default_commnad, files):
+    for file in files:
+        command = default_commnad.copy()
+        command.insert(1, file)
+        # print(*command)  # 実行コマンドの確認
+    yield command
+
+
 def confirm(default_commnad, files: str) -> str:
     """
     実行コマンドの確認
@@ -50,9 +58,7 @@ def confirm(default_commnad, files: str) -> str:
     戻り値:
         inp:y -> True / n -> False(bool型)
     """
-    for file in files:
-        command = default_commnad.copy()
-        command.insert(1, file)
+    for command in command_generator(files):
         print(*command)  # 実行コマンドの確認
     dic = {'y': True, 'yes': True, 'n': False, 'no': False}
     while True:  # 正しい値が入力されるまで繰り返し
@@ -82,15 +88,12 @@ def excute(sleeptime, *files):
         if sleeptime:
             print('実行待ち...')
             countdown(float(sleeptime))
-        for file in tqdm(files):
+        for command in tqdm(command_generator(default_commnad, files)):
             count += 1
             print('実行サイクル: %d/%d' % (count, len(files)))
 
             ts = datetime.today()
 
-            command = []  # 初期化
-            command = dafault_command.copy()
-            command.insert(1, file)
             print('実行コマンド: ', *command)
             sp.call(command)
 
