@@ -51,26 +51,18 @@ __TODO__
 何時間後に実行するか指定する
 """
 
+# __BUILTIN MODULES__________________________
 import glob
 import subprocess as sp
 from datetime import datetime
 from tqdm import tqdm
 import sys
-import pandas as pd
-from time import sleep
-import numpy as np
+# __USER MODULES__________________________
+from countdown import *
 
 _command = ['echo', 'foo']
 
 
-def countdown(n: float):
-    """
-    n秒待って、経過時間を進捗バーで表す
-    """
-    pbar = tqdm(np.arange(n))
-    for _ in pbar:
-        pbar.set_description('Now Waiting %dsec' % n)
-        sleep(1)
 
 
 def command_gen(files: list) -> list:
@@ -127,7 +119,10 @@ def excute(files: list, sleeptime: str):
         print('--\nyesが入力されました。処理を続行します。\n')
         if sleeptime:
             print('実行待ち...')
-            countdown(float(sleeptime))  # 入力された時間待つ
+            try:
+                countdown_end(sleeptime)  # sleeptimeの日時まで待つ
+            except:
+                countdown_shift(sleeptime)  # sleeptimeの時間だけ待つ
         for command in tqdm(command_gen(files)):
             count += 1
             print('実行サイクル: %d/%d' % (count, len(files)))
