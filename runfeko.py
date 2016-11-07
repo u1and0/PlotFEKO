@@ -60,9 +60,7 @@ import sys
 # __USER MODULES__________________________
 from countdown import *
 
-_command = ['echo', 'foo']
-
-
+_command = ['runfeko', '-np 16']
 
 
 def command_gen(files: list) -> list:
