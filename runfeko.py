@@ -57,10 +57,11 @@ import subprocess as sp
 from datetime import datetime
 from tqdm import tqdm
 import sys
+import os
 # __USER MODULES__________________________
 from countdown import *
 
-_command = ['runfeko', '-np 16']
+_command = ['runfeko', '-np', '16']
 
 
 def command_gen(files: list) -> list:
@@ -151,5 +152,10 @@ if __name__ == '__main__':
     except:
         sleeptime = input('何秒後に実行？ / 入力なし->Enterで直ちに実行 >>> ')
 
-    files = glob.glob(regex)
+    dirname = os.path.dirname(regex)
+    filename = os.path.basename(regex)
+    if dirname:
+        os.chdir(dirname)
+
+    files = glob.glob1(dirname, filename)
     excute(files, sleeptime)
